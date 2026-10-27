@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Online Examination System</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #edf2f7;
+            padding: 20px
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px
+        }
+        
+        .question {
+            padding: 15px;
+            background: #f4f7fb;
+            margin: 12px 0
+        }
+        
+        button {
+            padding: 12px;
+            background: #2457a7;
+            color: white;
+            border: 0;
+            cursor: pointer
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Online Examination</h1>
+        <form id="exam">
+            <div id="questions"></div>
+            <button type="submit">Submit Exam</button>
+        </form>
+        <h2 id="result"></h2>
+    </div>
+    <script>
+        const qs = [{
+            q: 'Which language structures a web page?',
+            o: ['HTML', 'SQL', 'Python', 'C'],
+            a: 0
+        }, {
+            q: 'Which technology styles web pages?',
+            o: ['CSS', 'Java', 'MySQL', 'C++'],
+            a: 0
+        }, {
+            q: 'Which service can store cloud documents?',
+            o: ['Firebase Storage', 'Calculator', 'Notepad', 'Paint'],
+            a: 0
+        }, {
+            q: 'Which language adds browser interactions?',
+            o: ['JavaScript', 'HTML only', 'CSS only', 'XML'],
+            a: 0
+        }, {
+            q: 'Which is a cloud database?',
+            o: ['Cloud Firestore', 'MS Paint', 'File Explorer', 'Task Manager'],
+            a: 0
+        }];
+        const area = document.getElementById('questions');
+        qs.forEach((q, i) => {
+            let d = document.createElement('div');
+            d.className = 'question';
+            let title = document.createElement('p');
+            title.textContent = (i + 1) + '. ' + q.q;
+            d.appendChild(title);
+            q.o.forEach((option, j) => {
+                let label = document.createElement('label');
+                let radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'q' + i;
+                radio.value = j;
+                radio.style.margin = '8px';
+                label.append(radio, document.createTextNode(option));
+                d.append(label, document.createElement('br'));
+            });
+            area.appendChild(d);
+        });
+        document.getElementById('exam').onsubmit = function(e) {
+            e.preventDefault();
+            let score = 0;
+            qs.forEach((q, i) => {
+                let selected = document.querySelector('input[name="q' + i + '"]:checked');
+                if (selected && Number(selected.value) === q.a) score++;
+            });
+            document.getElementById('result').textContent = 'Your score: ' + score + '/' + qs.length;
+        };
+    </script>
+</body>
+
+</html>
